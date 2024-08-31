@@ -1,6 +1,7 @@
 import json
 import urllib
 import numpy as np
+import requests
 from ..signal import StaticGraphTemporalSignal
 
 
@@ -16,7 +17,9 @@ class WindmillOutputMediumDatasetLoader(object):
 
     def _read_web_data(self):
         url = "https://graphmining.ai/temporal_datasets/windmill_output_medium.json"
-        self._dataset = json.loads(urllib.request.urlopen(url).read().decode())
+        response = requests.get(url, verify=False)
+        self._dataset = response.json() 
+
 
     def _get_edges(self):
         self._edges = np.array(self._dataset["edges"]).T
